@@ -1,22 +1,57 @@
-# Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
-
 trigger:
-- main
+- main  # Adjust this if you want to trigger the build on other branches as well
 
 pool:
-  name: SelfHostedPool
+  name: 'SelfHostedPool'  # Ensure your self-hosted agent pool is named correctly
+
+variables:
+  buildConfiguration: 'Release'  # You can customize your build configuration (e.g., 'Debug', 'Release')
+  mavenVersion: '3.8.1'  # Specify the Maven version you want to use
+  jdkVersion: '1.11'  # JDK version for your project
 
 steps:
+# Install Maven (optional, if you want to install a specific version)
 - task: Maven@3
+  displayName: 'Setup Maven'
   inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
+    mavenVersion: $(mavenVersion)
     jdkVersionOption: '1.11'
     jdkArchitectureOption: 'x64'
+    javaHomeOption: 'JDKVersion'
+
+# Restore dependencies
+- task: Maven@3
+  displayName: 'Restore Maven dependencies'
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'clean install'
+    mavenOptions: '-Xmx3072m'
+
+# Run tests
+- task: Maven@3
+  displayName: 'Run Maven tests'
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'test'
+    mavenOptions: '-Xmx3072m'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+
+# Build the project
+- task: Maven@3
+  displayName: 'Build the project (package)'
+  inputs:
+    mavenPomFile: 'pom.xml'
     goals: 'package'
+    mavenOptions: '-Xmx3072m'
+
+# Publish build artifacts (JAR, WAR, etc.)
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish build artifacts'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'  # Customize this path if needed
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+# Optionally, you can add custom steps, like sending notifications or deploying to a server
+
