@@ -1,0 +1,143 @@
+/* General Section Styling */
+#team {
+    background-color: #f8f9fa;
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+  
+  #team .section-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  /* Grid Layout for Team Members */
+  #team .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  /* Styling the individual team member cards */
+  .image-flip {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    perspective: 1000px;
+  }
+  
+  .mainflip {
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  
+  .image-flip:hover .mainflip {
+    transform: rotateY(180deg);
+  }
+  
+  /* Frontside card styling */
+  .frontside, .backside {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+  }
+  
+  .card {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .card img {
+    width: 100%;
+    border-radius: 50%;
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 15px;
+  }
+  
+  /* Buttons (Contact, Update, Delete) */
+  .btn {
+    margin-top: 10px;
+  }
+  
+  .btn-sm {
+    font-size: 0.875rem;
+    padding: 6px 12px;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+  
+  .btn-primary:hover, .btn-warning:hover, .btn-danger:hover {
+    opacity: 0.85;
+  }
+  
+  /* Backside card details */
+  .backside {
+    background-color: #f1f1f1;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .social-icon {
+    font-size: 1.5rem;
+    color: #666;
+  }
+  
+  .social-icon:hover {
+    color: #007bff;
+  }
+  
+  .list-inline-item {
+    display: inline-block;
+    margin: 5px;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 767px) {
+    .col-xs-12 {
+      padding: 10px;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .col-sm-6 {
+      padding: 10px;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .col-md-4 {
+      padding: 10px;
+    }
+  }
+  

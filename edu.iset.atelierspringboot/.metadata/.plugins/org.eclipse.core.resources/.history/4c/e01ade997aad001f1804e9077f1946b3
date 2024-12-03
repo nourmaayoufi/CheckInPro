@@ -1,0 +1,65 @@
+package edu.iset.atelierSpringBoot;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+
+
+@Service
+public class utilisateurService {
+	
+	@Autowired
+	private utilisateurRepository utilisateurRepository;
+	
+	public utilisateurService(utilisateurRepository utilisateurRepository) {
+		this.utilisateurRepository=utilisateurRepository;
+	}
+	
+	
+	
+	public List<utilisateur> getAllUtilisateurs(){
+		return utilisateurRepository.findAll();
+		
+	}
+	
+	
+	
+	public utilisateur getUtilisateurById(Long id){
+	Optional<utilisateur>	optionalUtilisateur= utilisateurRepository.findById(id);
+	 return optionalUtilisateur.orElse(null);
+		
+	}
+	
+	public utilisateur addUtilisateur(utilisateur utilisateur) {
+		return utilisateurRepository.save(utilisateur);
+	}
+	  public List<utilisateur> findByName(String query) {
+	        return utilisateurRepository.findByName(query);
+	    }
+	  
+	
+	  public utilisateur updateUtilisateur(utilisateur utilisateur) {
+		  utilisateur m = utilisateurRepository.findById(utilisateur.getId())
+				    .orElseThrow(() -> new RuntimeException("Utilisateur avec l'ID " + utilisateur.getId() + " non trouvé"));
+	     
+	        return utilisateurRepository.save(m);
+	    }
+
+
+
+
+	
+
+	public void deleteUtilisateur(Long id) {
+		utilisateurRepository.deleteById(id);
+		
+	}
+	 public utilisateur login(String email, String motDePasse) {
+	        Optional<utilisateur> optionalUtilisateur = utilisateurRepository.findByEmailAndMotDePasse(email, motDePasse);
+	        return optionalUtilisateur.orElse(null); // Retourne null si l'utilisateur n'est pas trouvé
+	    }
+	}

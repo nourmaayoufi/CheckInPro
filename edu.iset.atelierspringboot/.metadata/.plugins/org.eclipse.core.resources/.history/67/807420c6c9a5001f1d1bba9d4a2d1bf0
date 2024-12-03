@@ -1,0 +1,27 @@
+package edu.iset.authent.Controller;
+
+public class AttendanceRequest {
+    private Long userId;
+    private String location;
+    private boolean manualEntry;
+
+    // Constructeur par défaut
+    public AttendanceRequest() {}
+
+    // Getter et Setter pour userId
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+    // Getter et Setter pour manualEntry
+    public boolean isManualEntry() {
+        return manualEntry;
+    }
+
+    public void setManualEntry(boolean manualEntry) {
+        this.manualEntry = manualEntry;
+    }
+}

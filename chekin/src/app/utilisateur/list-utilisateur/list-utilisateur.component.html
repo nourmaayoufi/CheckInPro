@@ -1,0 +1,193 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" style="color:white;">Utilisateur Manager</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+       <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+             <a class="nav-link" (click)="onOpenModal(null, 'add')">Ajouter Utilisateur <span class="sr-only">(current)</span></a>
+          </li>
+       </ul>
+       <form class="form-inline my-2 my-lg-0">
+          <input type="search" (ngModelChange)="searchUtilisateurs(key.value)" #key="ngModel" ngModel
+           name="key" id="searchName" class="form-control mr-sm-2" placeholder="Chercher utilisateurs..." required>
+       </form>
+    </div>
+  </nav>
+  
+  <div class="container" id="main-container">
+    <div class="row">
+       
+        <div *ngFor="let utilisateur of utilisateurs | slice:(currentPage-1)*pageSize:currentPage*pageSize" class="col-md-4">
+            <div class="card m-2">
+                <div class="card-body">
+                    <h5 class="card-title">{{ utilisateur?.name }} {{ utilisateur?.prenom }}</h5>
+                    <p class="card-text">Rôle: {{ utilisateur?.role }}</p>
+                    <p>Email: {{ utilisateur?.email }}</p>
+                    <p>Adresse: {{ utilisateur?.adresse }}</p>
+                    <p>Validé: {{ utilisateur?.isVlidated ? 'Oui' : 'Non' }}</p>
+                    <div class="btn-group btn-group-sm">
+                        <button (click)="onOpenModal(utilisateur, 'edit')" class="btn btn-primary">Modifier</button>
+                        <button (click)="onOpenModal(utilisateur, 'delete')" class="btn btn-danger">Supprimer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
+
+<div class="modal fade" id="addUtilisateurModal" tabindex="-1" role="dialog" aria-labelledby="addUtilisateurModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+          <h5 class="modal-title" id="addUtilisateurModalLabel">Ajouter Utilisateur</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+       </div>
+       <div class="modal-body">
+        <form #addForm="ngForm" (ngSubmit)="onAddUtilisateur(addForm)">
+          <div class="form-group">
+            <label for="add-name">Nom</label>
+            <input type="text" ngModel name="name" class="form-control" id="add-name" placeholder="Nom" required>
+          </div>
+          <div class="form-group">
+            <label for="add-prenom">Prénom</label>
+            <input type="text" ngModel name="prenom" class="form-control" id="add-prenom" placeholder="Prénom" required>
+          </div>
+          <div class="form-group">
+            <label for="add-email">Email</label>
+            <input type="email" ngModel name="email" class="form-control" id="add-email" placeholder="Email" required>
+          </div>
+          <div class="form-group">
+            <label for="add-adresse">Adresse</label>
+            <input type="text" ngModel name="adresse" class="form-control" id="add-adresse" placeholder="Adresse" required>
+          </div>
+          <div class="form-group">
+            <label for="add-motDePasse">Mot de Passe</label>
+            <input type="password" ngModel name="motDePasse" class="form-control" id="add-motDePasse" placeholder="Mot de Passe" required>
+          </div>
+          <div class="form-group">
+            <label for="add-role">Rôle</label>
+            <input type="text" ngModel name="role" class="form-control" id="add-role" placeholder="Rôle" required>
+          </div>
+          <div class="form-group">
+            <label for="add-isVlidated">Validé</label>
+            <input type="checkbox" ngModel name="isVlidated" id="add-isVlidated" [checked]="true">
+          </div>
+        </form>
+        
+       </div>
+    </div>
+  </div>
+</div>
+
+
+ <div class="modal fade" id="updateUtilisateurModal" tabindex="-1" role="dialog" aria-labelledby="utilisateurEditModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateUtilisateurModalLabel">
+          Modifier Utilisateur
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #editForm="ngForm">
+          <div class="form-group">
+            <label for="edit-id">ID</label>
+            <input type="text" [(ngModel)]="editUtilisateur.id" name="id" class="form-control" id="edit-id" readonly>
+          </div>
+          <div class="form-group">
+            <label for="edit-name">Nom</label>
+            <input type="text" [(ngModel)]="editUtilisateur.name" name="name" class="form-control" id="edit-name" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-prenom">Prénom</label>
+            <input type="text" [(ngModel)]="editUtilisateur.prenom" name="prenom" class="form-control" id="edit-prenom" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-email">Email</label>
+            <input type="email" [(ngModel)]="editUtilisateur.email" name="email" class="form-control" id="edit-email" required>
+          </div>
+          <div class="form-group">
+            <label for="edit-adresse">Adresse</label>
+            <input type="text" [(ngModel)]="editUtilisateur.adresse" name="adresse" class="form-control" id="edit-adresse">
+          </div>
+          <div class="form-group">
+            <label for="edit-motDePasse">Mot de Passe</label>
+            <input type="password" [(ngModel)]="editUtilisateur.motDePasse" name="motDePasse" class="form-control" id="edit-motDePasse">
+          </div>
+          <div class="form-group">
+            <label for="edit-role">Rôle</label>
+            <input type="text" [(ngModel)]="editUtilisateur.role" name="role" class="form-control" id="edit-role">
+          </div>
+          <div class="form-group">
+            <label for="edit-isVlidated">Validé</label>
+            <input type="checkbox" [(ngModel)]="editUtilisateur.isVlidated" name="isVlidated" id="edit-isVlidated">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="deleteUtilisateurModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title" id="deleteModelLabel">Supprimer Utilisateur</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+           </button>
+        </div>
+        <div class="modal-body">
+           <p>Êtes-vous sûr de vouloir supprimer l'utilisateur ?</p>
+           <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+              <button (click)="onDeleteUtilisateur(deleteUtilisateur.id! )" class="btn btn-danger" data-dismiss="modal">Oui</button>
+
+           </div>
+        </div>
+     </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 text-center my-3">
+    <div class="btn-group" role="group" aria-label="Pagination">
+      
+      <button
+        class="btn btn-primary btn-lg d-flex align-items-center"
+        [disabled]="currentPage === 1"
+        (click)="changePage(currentPage - 1)"
+      >
+        <i class="fas fa-arrow-left me-2"></i>
+        Précédent
+      </button>
+
+     
+      <button
+        class="btn btn-primary btn-lg d-flex align-items-center"
+        [disabled]="currentPage * pageSize >= utilisateurs.length"
+        (click)="changePage(currentPage + 1)"
+      >
+        Suivant
+        <i class="fas fa-arrow-right ms-2"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="utilisateurs?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+  <div class="alert alert-info" role="alert">
+    <h4 class="alert-heading">AUCUN UTILISATEUR!</h4>
+    <p>Aucun utilisateur n'a été trouvé.</p>
+  </div>
+</div>

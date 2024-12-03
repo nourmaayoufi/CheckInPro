@@ -1,0 +1,108 @@
+package edu.iset.authent.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import edu.iset.authent.entities.User;
+import edu.iset.authent.services.UserService;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/users")
+@CrossOrigin(origins = "http://localhost:4200") // Autorise les requêtes depuis localhost:4200 (frontend Angular)
+public class UserController {
+
+    @Autowired
+    private UserService utilisateurService;
+
+    // Récupère tous les utilisateurs
+    @GetMapping("/all")
+    public List<User> getAllUtilisateurs() {
+        return utilisateurService.getAllUtilisateur();
+    }
+
+    // Crée un nouvel utilisateur
+    @PostMapping
+    public User createUtilisateur(@RequestBody User utilisateur) {
+        return utilisateurService.addUtilisateur(utilisateur);
+    }
+
+    // Supprime un utilisateur par son ID
+    @DeleteMapping("/{id}")
+    public void deleteUtilisateur(@PathVariable Long id) {
+        utilisateurService.deleteUtilisateur(id);
+    }
+
+    // Méthode de login
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User utilisateur) {
+        // Log des données reçues
+        System.out.println("Mail reçu : " + utilisateur.getMail());
+        System.out.println("Mot de passe reçu : " + utilisateur.getPsw());
+        System.out.println("Role reçu : " + utilisateur.getRole());
+
+        try {
+            // Vérifie les informations de connexion
+            User user = utilisateurService.getUtilisateurByMail(utilisateur.getMail());
+            if (user != null && user.getPsw().equals(utilisateur.getPsw())) {
+                // Si l'utilisateur existe et les informations de mot de passe correspondent,
+                // on vérifie également le rôle de l'utilisateur
+                if (user.getRole().equals(utilisateur.getRole())) {
+                    // Réponse avec code 200, le bon en-tête Content-Type et le rôle dans la réponse
+                    return ResponseEntity.ok()
+                            .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                            .body(new LoginResponse("Connexion réussie !", user.getRole()));
+                } else {
+                    // Si le rôle est incorrect, on renvoie une erreur avec un message approprié
+                    return ResponseEntity.status(401)
+                            .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                            .body(new LoginResponse("Rôle incorrect"));
+                }
+            } else {
+                // Si l'utilisateur n'est pas trouvé ou le mot de passe est incorrect
+                return ResponseEntity.status(401)
+                        .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                        .body(new LoginResponse("Informations de connexion incorrectes"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Réponse avec code 500 en cas d'erreur interne du serveur
+            return ResponseEntity.status(500)
+                    .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                    .body(new LoginResponse("Erreur interne du serveur"));
+        }
+    }
+
+    // Classe interne pour structurer la réponse JSON du login
+    public static class LoginResponse {
+        private String message;
+        private String role;
+
+        // Constructeur avec message et rôle
+        public LoginResponse(String message, String role) {
+            this.message = message;
+            this.role = role;
+        }
+
+        // Getter et setter pour le message
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        // Getter et setter pour le rôle
+        public String getRole() {
+            return role;
+        }
+
+        public void setRole(String role) {
+            this.role = role;
+        }
+    }
+}

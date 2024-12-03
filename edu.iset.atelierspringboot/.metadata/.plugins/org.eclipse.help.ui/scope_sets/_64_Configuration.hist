@@ -1,0 +1,4 @@
+#Sun Nov 17 13:51:20 CET 2024
+__DEFAULT__=false
+expression=@Configuration
+org.eclipse.help.ui.localSearch.master=true

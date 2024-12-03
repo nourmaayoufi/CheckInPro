@@ -1,0 +1,96 @@
+<form class="row g-3 needs-validation" (ngSubmit)="ajouterUtilisateur()" novalidate>
+ 
+    <div class="col-md-4">
+      <label for="nom" class="form-label">Nom</label>
+      <input type="text" class="form-control" id="nom" [(ngModel)]="utilisateur.name" name="name" required #nom="ngModel">
+      <div class="invalid-feedback" *ngIf="nom.invalid && nom.touched">
+        Please provide a valid first name.
+      </div>
+      <div class="valid-feedback" *ngIf="nom.valid && nom.touched">
+        Looks good!
+      </div>
+    </div>
+  
+    
+    <div class="col-md-4">
+      <label for="prenom" class="form-label">Prénom</label>
+      <input type="text" class="form-control" id="prenom" [(ngModel)]="utilisateur.prenom" name="prenom" required #prenom="ngModel">
+      <div class="invalid-feedback" *ngIf="prenom.invalid && prenom.touched">
+        Please provide a valid last name.
+      </div>
+      <div class="valid-feedback" *ngIf="prenom.valid && prenom.touched">
+        Looks good!
+      </div>
+    </div>
+  
+   
+    <div class="col-md-4">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" [(ngModel)]="utilisateur.email" name="email" required #email="ngModel">
+      <div class="invalid-feedback" *ngIf="email.invalid && email.touched">
+        Please provide a valid email.
+      </div>
+      <div class="valid-feedback" *ngIf="email.valid && email.touched">
+        Looks good!
+      </div>
+    </div>
+  
+  
+    <div class="col-md-6">
+      <label for="adresse" class="form-label">Adresse</label>
+      <input type="text" class="form-control" id="adresse" [(ngModel)]="utilisateur.adresse" name="adresse" required #adresse="ngModel">
+      <div class="invalid-feedback" *ngIf="adresse.invalid && adresse.touched">
+        Please provide a valid address.
+      </div>
+      <div class="valid-feedback" *ngIf="adresse.valid && adresse.touched">
+        Looks good!
+      </div>
+    </div>
+  
+   
+    <div class="col-md-3">
+      <label for="motDePasse" class="form-label">Mot de Passe</label>
+      <input type="password" class="form-control" id="motDePasse" [(ngModel)]="utilisateur.motDePasse" name="motDePasse" required #motDePasse="ngModel">
+      <div class="invalid-feedback" *ngIf="motDePasse.invalid && motDePasse.touched">
+        Please provide a valid password.
+      </div>
+      <div class="valid-feedback" *ngIf="motDePasse.valid && motDePasse.touched">
+        Looks good!
+      </div>
+    </div>
+  
+  
+    <div class="col-md-3">
+      <label for="role" class="form-label">Rôle</label>
+      <select class="form-select" id="role" [(ngModel)]="utilisateur.role" name="role" required #role="ngModel">
+        <option value="admin">Administrateur</option>
+        <option value="user">Utilisateur</option>
+        <option value="user">manager</option>
+      </select>
+      <div class="invalid-feedback" *ngIf="role.invalid && role.touched">
+        Please select a role.
+      </div>
+      <div class="valid-feedback" *ngIf="role.valid && role.touched">
+        Looks good!
+      </div>
+    </div>
+  
+   
+    <div class="col-12">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="isVlidated" [(ngModel)]="utilisateur.isVlidated" name="isVlidated" required #isVlidated="ngModel">
+        <label class="form-check-label" for="isVlidated">
+          Accepter les conditions
+        </label>
+        <div class="invalid-feedback" *ngIf="isVlidated.invalid && isVlidated.touched">
+          You must agree to the terms and conditions before submitting.
+        </div>
+      </div>
+    </div>
+  
+  
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Soumettre le formulaire</button>
+    </div>
+  </form>
+  

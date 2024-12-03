@@ -1,0 +1,56 @@
+/* You can add global styles to this file, and also import other style files */
+/* Custom styles for the navbar */
+.navbar {
+    background-color: #f8f9fa !important; /* Light background */
+    padding: 10px 20px; /* Adjust padding */
+  }
+  
+  /* Custom link styles */
+  .navbar .nav-link {
+    color: #007bff !important; /* Blue color for links */
+    font-weight: bold; /* Make the text bold */
+  }
+  
+  .navbar .nav-link:hover {
+    color: #0056b3 !important; /* Dark blue on hover */
+  }
+  
+  /* Active link style */
+  .navbar .nav-item .active {
+    color: #28a745 !important; /* Green for active link */
+    font-weight: bold;
+  }
+  
+  /* Customize navbar brand */
+  .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .navbar-toggler-icon {
+    background-color: #007bff; /* Change toggler icon color */
+  }
+  
+  /* Mobile-friendly navbar (make it look better on smaller screens) */
+  @media (max-width: 768px) {
+    .navbar {
+      padding: 10px;
+    }
+    
+    .navbar-brand {
+      font-size: 1.3rem;
+    }
+  }
+  
+  /* Container styles */
+  .container {
+    margin-top: 20px;
+  }
+  
+  /* Navbar links' active state with a different background */
+  .navbar-nav .nav-item.active > .nav-link {
+    background-color: #e9ecef;
+    border-radius: 5px;
+  }
+  

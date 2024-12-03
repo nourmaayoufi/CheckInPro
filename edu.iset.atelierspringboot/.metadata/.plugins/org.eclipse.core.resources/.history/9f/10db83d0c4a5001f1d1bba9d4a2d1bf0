@@ -1,0 +1,31 @@
+package edu.iset.authent.Controller;
+
+import edu.iset.authent.entities.Attendance;
+import edu.iset.authent.services.AttendanceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/attendance")
+public class AttendanceController {
+
+    @Autowired
+    private AttendanceService attendanceService;
+
+    @PostMapping("/checkin")
+    public Attendance checkIn(@RequestBody AttendanceRequest request) {
+        return attendanceService.checkIn(request.getUserId(), request.getLocation(), request.isManualEntry());
+    }
+
+    @PostMapping("/checkout")
+    public Attendance checkOut(@RequestParam Long userId) {
+        return attendanceService.checkOut(userId);
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<Attendance> getUserAttendance(@PathVariable Long userId) {
+        return attendanceService.getAttendanceByUser(userId);
+    }
+}
