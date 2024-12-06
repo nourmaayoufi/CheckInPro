@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/Utilisateur") // localhost:8081/Utilisateur
+@RequestMapping("/Utilisateur")
 public class utilisateurController {
 
     @GetMapping
